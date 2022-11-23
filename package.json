@@ -4,12 +4,12 @@
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
+    "dev": "NODE_ENV=development ts-node-dev -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.development",
     "build": "tsc",
-    "start": "node dist/src/server.js",
+    "start": "node -r dotenv/config dist/src/server.js",
     "integration-tests": "npx dotenv-cli -e .env.test jest -- --no-cache -i --testPathPattern=tests/integration",
     "unit-tests": "npx dotenv-cli -e .env.test jest -- --no-cache -i --coverage --testPathPattern=tests/unit",
-    "e2e-server": "NODE_ENV=test DATABASE_URL='postgresql://postgres:postgres@localhost:5432/mybinder_test' ts-node-dev -r tsconfig-paths/register src/server.ts",
+    "e2e-server": "NODE_ENV=test ts-node-dev -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.test",
     "dev:db:migrate": "npx prisma migrate dev",
     "test:db:migrate": "npx dotenv-cli -e .env.test prisma migrate dev"
   },

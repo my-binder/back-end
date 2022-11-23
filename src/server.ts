@@ -1,8 +1,7 @@
 import app from './app';
-import { config } from 'dotenv';
 
-config();
 const PORT = process.env.PORT || 4000;
+const ENV = process.env.NODE_ENV || 'production';
 app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}.`);
+  console.log(`Server is listening on port ${PORT}, ${ENV} environment.`);
 });
