@@ -1,15 +1,15 @@
-import userFactory from '../../prisma/factories/userFactory';
-import createUser from '../utils/createUser';
-import * as repository from '../../src/repositories/usersRepository';
-import * as service from '../../src/services/usersService';
-import { UpdateUserData } from '../../src/types/userTypes';
+
+import { userFactory } from '@tests/factories';
+import { createUser } from '@tests/utils';
+import { usersRepository } from '@/repositories';
+import { usersService } from '@/services';
+import { UpdateUserData } from '@/types';
 
 describe('Testing updateUser()...', () => {
-  jest.spyOn(repository, 'updateUser').mockImplementation(
-    async (id: number, data: UpdateUserData) => {return;}
-  );
-
   it('Testing with successful data', async() => {
+    jest.spyOn(usersRepository, 'updateUser').mockImplementation(
+      async (id: number, data: UpdateUserData) => {return;}
+    );
     const unhashedUser = userFactory();
     const user = await createUser(unhashedUser);
     const newUserData = userFactory();
@@ -18,8 +18,8 @@ describe('Testing updateUser()...', () => {
       newPassword: newUserData.password,
       oldPassword: unhashedUser.password
     };
-    await service.updateUser(newData, { ...user, id: 1 });
-    expect(repository.updateUser).toBeCalled();
+    await usersService.updateUser(newData, { ...user, id: 1 });
+    expect(usersRepository.updateUser).toBeCalled();
   });
 
   it('Sending wrong password', async() => {
@@ -33,7 +33,7 @@ describe('Testing updateUser()...', () => {
     };
     let errMessage = '';
     try {
-      await service.updateUser(newData, { ...user, id: 1 });
+      await usersService.updateUser(newData, { ...user, id: 1 });
     } catch (err: any) {
       errMessage = err.message;
     }

@@ -1,9 +1,8 @@
-import db from '../../src/database';
+import db from '@/database';
 import bcrypt from 'bcrypt';
-import { SignUpData } from '../../src/types/userTypes';
-import { User } from '../../src/types/userTypes';
+import { SignUpData, User } from '@/types';
 
-async function createUser(data: SignUpData): Promise<Omit<User, 'id'>> {
+export async function createUser(data: SignUpData): Promise<Omit<User, 'id'>> {
   const hash: string = await bcrypt.hash(data.password, 10);
   await db.user.create({ data: { ...data, password: hash } });
   return {
@@ -12,5 +11,3 @@ async function createUser(data: SignUpData): Promise<Omit<User, 'id'>> {
     password: hash
   };
 }
-
-export default createUser;

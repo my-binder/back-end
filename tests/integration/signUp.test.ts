@@ -1,8 +1,8 @@
 import supertest from 'supertest';
-import db from '../../src/database';
-import app from '../../src/app';
-import userFactory from '../../prisma/factories/userFactory';
-import createUser from '../utils/createUser';
+import db from '@/database';
+import app from '@/app';
+import { userFactory } from '@tests/factories';
+import { createUser } from '@tests/utils';
 
 beforeEach(async () => {
   await db.$queryRaw`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
