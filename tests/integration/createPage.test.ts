@@ -14,7 +14,7 @@ afterAll(() => {
 });
 
 describe('POST /pages integration test...', () => {
-  it('Sending correct information, must return 201 and a add a new page', async () => {
+  it('Sending correct information', async () => {
     await createUser(userFactory());
     const token = generateToken(1);
     const data = pageFactory();
@@ -29,7 +29,7 @@ describe('POST /pages integration test...', () => {
     expect(page).not.toBeNull();
   });
   
-  it('Sending wrong token, must return 401', async () => {
+  it('Sending wrong token', async () => {
     await createUser(userFactory());
     const token = generateToken(2);
     const data = pageFactory();
@@ -44,7 +44,7 @@ describe('POST /pages integration test...', () => {
     expect(page).toBeNull();
   });
 
-  it('Sending unavailable url, must return 409', async () => {
+  it('Sending unavailable url', async () => {
     await createUser(userFactory());
     const token = generateToken(1);
     const data1 = pageFactory();

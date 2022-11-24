@@ -19,7 +19,7 @@ afterAll(() => {
 });
 
 describe('PUT /entries integration tests...', () => {
-  it('Sending correct information, should return 200 and change the entry', async () => {
+  it('Sending correct information', async () => {
     await createUser(userFactory());
     const token = generateToken(1);
     const page = pageFactory();
@@ -42,7 +42,7 @@ describe('PUT /entries integration tests...', () => {
     expect(query?.space).toBe(newData.space);
   });
 
-  it('Sending to wrong page, should return 401 and not change anything', async () => {
+  it('Sending to wrong page', async () => {
     await createUser(userFactory());
     await createUser(userFactory());
     const token = generateToken(1);

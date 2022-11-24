@@ -14,7 +14,8 @@ describe('Testing updateUser()...', () => {
     const user = await createUser(unhashedUser);
     const newUserData = userFactory();
     const newData = {
-      displayname: newUserData.displayname,
+      urlName: newUserData.urlName,
+      displayName: newUserData.displayName,
       newPassword: newUserData.password,
       oldPassword: unhashedUser.password
     };
@@ -27,7 +28,7 @@ describe('Testing updateUser()...', () => {
     const user = await createUser(unhashedUser);
     const newUserData = userFactory();
     const newData = {
-      displayname: newUserData.displayname,
+      displayName: newUserData.displayName,
       newPassword: newUserData.password,
       oldPassword: 'a'
     };

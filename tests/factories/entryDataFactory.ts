@@ -9,7 +9,7 @@ export function entryDataFactory(): EntryData {
     type: table[rand],
     title: faker.lorem.words(2),
     description: faker.lorem.sentences(2),
-    text: faker.lorem.sentences(),
+    text: faker.lorem.sentences(4),
     imageUrl: faker.internet.url(),
     sourceUrl: faker.internet.url(),
     space: rand

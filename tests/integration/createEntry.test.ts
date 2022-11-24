@@ -15,7 +15,7 @@ afterAll(() => {
 });
 
 describe('POST /entry integration test...', () => {
-  it('Sending correct information, must return 201 and add a new entry', async () => {
+  it('Sending correct information', async () => {
     await createUser(userFactory());
     const token = generateToken(1);
     const pageData = pageFactory();
@@ -29,7 +29,7 @@ describe('POST /entry integration test...', () => {
     expect(entry).not.toBeNull();
   });
 
-  it('Sending wrong token, must return 401', async () => {
+  it('Sending wrong token', async () => {
     await createUser(userFactory());
     const token = generateToken(2);
     const pageData = pageFactory();
@@ -43,7 +43,7 @@ describe('POST /entry integration test...', () => {
     expect(entry).toBeNull();
   });
 
-  it('Sending wrong page, must return 401', async () => {
+  it('Sending to wrong page', async () => {
     await createUser(userFactory());
     await createUser(userFactory());
     const token = generateToken(1);

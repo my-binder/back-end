@@ -3,8 +3,9 @@ import { User } from '@/types';
 
 export function userFactory(): Omit<User, 'id'> {
   return {
-    username: faker.name.fullName().replace(' ', '-'),
-    displayname: faker.name.firstName(),
+    email: faker.internet.email(),
+    urlName: faker.lorem.word(5),
+    displayName: faker.lorem.word(5),
     password: faker.internet.password()
   };
 }
