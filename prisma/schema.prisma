@@ -12,8 +12,9 @@ datasource db {
 
 model User {
     id          Int         @id @default(autoincrement())
-    username    String      @unique @db.VarChar(50)
-    displayname String      @db.VarChar(50)
+    email       String      @unique @db.VarChar(50)
+    urlName     String      @unique @db.VarChar(50)
+    displayName String      @db.VarChar(50)
     password    String
     pages       Page[]
     @@map("users")

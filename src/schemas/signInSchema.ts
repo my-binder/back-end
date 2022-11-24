@@ -1,15 +1,17 @@
 import joi, { Schema } from 'joi';
 
 export const signInSchema: Schema = joi.object({
-  username: joi.string()
+  email: joi.string()
+    .email()
     .min(3)
     .max(50)
     .required()
     .messages({
-      'string.base': 'Username must be a text',
-      'string.min': 'Username must be at least 3 characters long',
-      'string.max': 'Username must be at most 50 characters long',
-      'any.required': 'Username field is required'
+      'string.base': 'Email must be a text',
+      'string.email': 'Email must be a valid email',
+      'string.min': 'Email must be at least 3 characters long',
+      'string.max': 'Email must be at most 50 characters long',
+      'any.required': 'Email field is required'
     }),
   password: joi.string()
     .min(6)

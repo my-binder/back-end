@@ -6,7 +6,9 @@ import { unauthorized } from '@/errors';
 
 const SECRET = process.env.JWT_SECRET as string;
 
-export function generateToken(userId: number): string {
+export function generateToken(
+  userId: number
+): string {
   return jwt.sign(
     { userId },
     SECRET,
@@ -14,10 +16,12 @@ export function generateToken(userId: number): string {
   );
 }
 
-export async function validateToken(token: string): Promise<User> {
+export async function validateToken(
+  token: string
+): Promise<User> {
   try {
     const payload: any = jwt.verify(token, SECRET);
-    const user: User | null = await usersRepository.findUserById(payload.userId);
+    const user = await usersRepository.findUserById(payload.userId);
     if (!user) throw unauthorized();
     return user;
   } catch (err) {
@@ -25,10 +29,12 @@ export async function validateToken(token: string): Promise<User> {
   }
 }
 
-export async function validateCredentials(data: SignInData): Promise<User> {
-  const user: User | null = await usersRepository.findUserByUsername(data.username);
+export async function validateCredentials(
+  data: SignInData
+): Promise<User> {
+  const user = await usersRepository.findUserByEmail(data.email);
   if (!user) throw unauthorized();
-  const passwordCheck: boolean = await bcrypt.compare(data.password, user.password);
+  const passwordCheck = await bcrypt.compare(data.password, user.password);
   if (!passwordCheck) throw unauthorized();
   return user;
 }

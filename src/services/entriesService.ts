@@ -8,9 +8,9 @@ import { notFound, unauthorized, notAllowed } from '@/errors';
 
 export async function getPageEntries(
   pagename: string,
-  username: string
+  userEmail: string
 ): Promise<FullPage> {
-  const user = await usersRepository.findUserByUsername(username);
+  const user = await usersRepository.findUserByEmail(userEmail);
   if (!user) throw notFound();
   const page = await pagesRepository.getPageByUrl(pagename, user.id);
   if (!page) throw notFound();
@@ -65,7 +65,7 @@ export async function deleteEntry(
   const entry = await entriesRepository.getEntryById(entryId);
   if (!entry) throw notFound('Entry not found');
   if (entry.pageId !== page.id) throw unauthorized();
-  const entryIndex: number = entry.index;
+  const entryIndex = entry.index;
   await entriesRepository.deleteEntry(entryId);
   for (const element of page.entries) {
     if (element.index > entryIndex) entriesRepository.moveUpEntry(element.id);
@@ -100,7 +100,8 @@ export async function moveDownEntry(
   const entry = await entriesRepository.getEntryById(entryId);
   if (!entry) throw notFound('Entry not found');
   if (entry.pageId !== page.id) throw unauthorized();
-  if (entry.index === page.entries.length - 1) throw notAllowed('Already at the bottom');
+  if (entry.index === page.entries.length - 1)
+    throw notAllowed('Already at the bottom');
   const entryIndex = entry.index;
   await entriesRepository.moveDownEntry(entryId);
   await entriesRepository.moveUpEntry(page.entries[entryIndex + 1].id);

@@ -1,7 +1,19 @@
 import joi, { Schema } from 'joi';
 
 export const updateUserSchema: Schema = joi.object({
-  displayname: joi.string()
+  urlName: joi.string()
+    .pattern(/^[A-Za-z0-9_-]+$/)
+    .min(3)
+    .max(50)
+    .required()
+    .messages({
+      'string.base': 'URL name must be a text',
+      'string.pattern.base': 'URL name must contain only letters without accents, numbers, underscores and dashes.',
+      'string.min': 'URL name must be at least 3 characters long',
+      'string.max': 'URL name must be at most 50 characters long',
+      'any.required': 'URL name field is required'
+    }),
+  displayName: joi.string()
     .pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ0-9 _'\-\.]+$/)
     .min(3)
     .max(50)

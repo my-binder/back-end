@@ -1,19 +1,31 @@
 import joi, { Schema } from 'joi';
 
 export const signUpSchema: Schema = joi.object({
-  username: joi.string()
+  email: joi.string()
+    .email()
+    .min(3)
+    .max(50)
+    .required()
+    .messages({
+      'string.base': 'Email must be a text',
+      'string.email': 'Email must be a valid email',
+      'string.min': 'Email must be at least 3 characters long',
+      'string.max': 'Email must be at most 50 characters long',
+      'any.required': 'Email field is required'
+    }),
+  urlName: joi.string()
     .pattern(/^[A-Za-z0-9_-]+$/)
     .min(3)
     .max(50)
     .required()
     .messages({
-      'string.base': 'Username must be a text',
-      'string.pattern.base': 'Username must contain only letters without accents, numbers, underscores and dashes.',
-      'string.min': 'Username must be at least 3 characters long',
-      'string.max': 'Username must be at most 50 characters long',
-      'any.required': 'Username field is required'
+      'string.base': 'URL name must be a text',
+      'string.pattern.base': 'URL name must contain only letters without accents, numbers, underscores and dashes.',
+      'string.min': 'URL name must be at least 3 characters long',
+      'string.max': 'URL name must be at most 50 characters long',
+      'any.required': 'URL name field is required'
     }),
-  displayname: joi.string()
+  displayName: joi.string()
     .pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ0-9 _/'\-\.]+$/)
     .min(3)
     .max(50)
