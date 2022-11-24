@@ -1,21 +1,28 @@
 {
   "name": "mybinder-back-end",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.0",
+  "description": "Back-end of the MyBinder project",
+  "author": "Rafael Bordoni",
+  "license": "MIT",
   "main": "src/server.ts",
+  "keywords": [
+    "mybinder",
+    "backend",
+    "typescript",
+    "express"
+  ],
   "scripts": {
-    "dev": "NODE_ENV=development ts-node-dev -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.development",
     "build": "tsc",
     "start": "node -r dotenv/config dist/src/server.js",
-    "integration-tests": "npx dotenv-cli -e .env.test jest -- --no-cache -i --testPathPattern=tests/integration",
-    "unit-tests": "npx dotenv-cli -e .env.test jest -- --no-cache -i --coverage --testPathPattern=tests/unit",
-    "e2e-server": "NODE_ENV=test ts-node-dev -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.test",
-    "dev:db:migrate": "npx prisma migrate dev",
-    "test:db:migrate": "npx dotenv-cli -e .env.test prisma migrate dev"
+    "dev": "NODE_ENV=development ts-node-dev -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.development",
+    "dev:db:generate": "npx dotenv-cli -e .env.development prisma generate",
+    "dev:db:migrate": "npx dotenv-cli -e .env.development prisma migrate dev",
+    "test": "NODE_ENV=test ts-node-dev -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.test",
+    "test:db:generate": "npx dotenv-cli -e .env.test prisma generate",
+    "test:db:migrate": "npx dotenv-cli -e .env.test prisma migrate dev",
+    "test:integration": "npx dotenv-cli -e .env.test jest -- --no-cache -i --testPathPattern=tests/integration",
+    "test:unit": "npx dotenv-cli -e .env.test jest -- --no-cache -i --coverage --testPathPattern=tests/unit"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@faker-js/faker": "^7.5.0",
     "@types/bcrypt": "^5.0.0",
