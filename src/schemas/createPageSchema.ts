@@ -7,6 +7,7 @@ export const createPageSchema: Schema = joi.object({
     .messages({
       'string.base': 'URL Name must be text',
       'string.pattern.base': 'URL Name must contain only letters without accents, numbers, underscores and dashes.',
+      'string.empty': 'URL Name field is required',
       'any.required': 'URL Name field is required'
     }),
   title: joi.string()
@@ -15,6 +16,7 @@ export const createPageSchema: Schema = joi.object({
     .messages({
       'string.base': 'Title must be text',
       'string.pattern.base': 'Title must contain only letters, numbers, underscores, apostrophes, spaces, slashes, dashes and dots.',
+      'string.empty': 'Title field is required',
       'any.required': 'Title field is required'
     })
 });

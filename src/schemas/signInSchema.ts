@@ -11,6 +11,7 @@ export const signInSchema: Schema = joi.object({
       'string.email': 'Email must be a valid email',
       'string.min': 'Email must be at least 3 characters long',
       'string.max': 'Email must be at most 50 characters long',
+      'string.empty': 'Email field is required',
       'any.required': 'Email field is required'
     }),
   password: joi.string()
@@ -21,6 +22,7 @@ export const signInSchema: Schema = joi.object({
       'string.base': 'Password must be a text',
       'string.min': 'Password must be at least 6 characters long',
       'string.max': 'Password must be at most 24 characters long',
+      'string.empty': 'Password field is required',
       'any.required': 'Password field is required'
     })
 });

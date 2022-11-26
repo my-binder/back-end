@@ -5,13 +5,11 @@ export const updateUserSchema: Schema = joi.object({
     .pattern(/^[A-Za-z0-9_-]+$/)
     .min(3)
     .max(50)
-    .required()
     .messages({
       'string.base': 'URL name must be a text',
       'string.pattern.base': 'URL name must contain only letters without accents, numbers, underscores and dashes.',
       'string.min': 'URL name must be at least 3 characters long',
       'string.max': 'URL name must be at most 50 characters long',
-      'any.required': 'URL name field is required'
     }),
   displayName: joi.string()
     .pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ0-9 _'\-\.]+$/)
@@ -22,7 +20,6 @@ export const updateUserSchema: Schema = joi.object({
       'string.pattern.base': 'Display name must contain only letters, numbers, underscores, apostrophes, spaces, dashes and dots.',
       'string.min': 'Display name must be at least 3 characters long',
       'string.max': 'Display name must be at most 50 characters long',
-      'any.required': 'Display name field is required'
     }),
   oldPassword: joi.string()
     .min(6)
@@ -31,7 +28,6 @@ export const updateUserSchema: Schema = joi.object({
       'string.base': 'Old password must be a text',
       'string.min': 'Old password must be at least 6 characters long',
       'string.max': 'Old password must be at most 24 characters long',
-      'any.required': 'Old password field is required'
     }),
   newPassword: joi.string()
     .min(6)
@@ -40,6 +36,5 @@ export const updateUserSchema: Schema = joi.object({
       'string.base': 'New password must be a text',
       'string.min': 'New password must be at least 6 characters long',
       'string.max': 'New password must be at most 24 characters long',
-      'any.required': 'New password field is required'
     })
 });

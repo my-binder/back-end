@@ -7,6 +7,7 @@ export const entrySchema: Schema = joi.object({
     .messages({
       'string.base': 'Type must be text',
       'any.only': 'Invalid type',
+      'string.empty': 'Type field is required',
       'any.required': 'Type field is required'
     }),
   title: joi.string()
