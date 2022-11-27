@@ -19,25 +19,33 @@ export async function updateUser(
   data: UpdateUserData,
   user: User
 ): Promise<void> {
-  if (!data.displayName && !data.urlName && !data.newPassword)
+  if (!data.email && !data.displayName && !data.urlName && !data.newPassword)
     throw unprocessable('Must update something');
+  if (!data.oldPassword)
+    throw unauthorized('Must match old password correctly to update anything');
+  const checkPass = await bcrypt.compare(data.oldPassword, user.password);
+  if (!checkPass)
+    throw unauthorized('Must match old password correctly to update anything');
+  
   const entries: [string, string][] = [];
-  if (data.newPassword) {
-    if (!data.oldPassword)
-      throw unauthorized('Must match old password correctly to update it');
-    const checkPass = await bcrypt.compare(data.oldPassword, user.password);
-    if (!checkPass)
-      throw unauthorized('Must match old password correctly to update it');
-    const passwordHash = await bcrypt.hash(data.newPassword, 10);
-    entries.push(['password', passwordHash]);
-  }
-  if (data.displayName) {
-    entries.push(['displayName', data.displayName]);
+  if (data.email) {
+    const checkEmail = await usersRepository.findUserByEmail(data.email);
+    if (checkEmail && checkEmail.id !== user.id)
+      throw conflict('Email unavailable');
+    entries.push(['email', data.email]);
   }
   if (data.urlName) {
     const checkUrlName = await usersRepository.findUserByUrlName(data.urlName);
     if (checkUrlName && checkUrlName.id !== user.id)
       throw conflict('URL name unavailable');
+    entries.push(['urlName', data.urlName]);
+  }
+  if (data.displayName) {
+    entries.push(['displayName', data.displayName]);
+  }
+  if (data.newPassword) {
+    const passwordHash = await bcrypt.hash(data.newPassword, 10);
+    entries.push(['password', passwordHash]);
   }
   const newData = Object.fromEntries(entries);
   await usersRepository.updateUser(user.id, newData);

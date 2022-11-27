@@ -14,10 +14,10 @@
   "scripts": {
     "build": "tsc",
     "start": "node -r dotenv/config dist/src/server.js",
-    "dev": "NODE_ENV=development ts-node-dev -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.development",
+    "dev": "NODE_ENV=development ts-node-dev --exit-child -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.development",
     "dev:db:generate": "npx dotenv-cli -e .env.development prisma generate",
     "dev:db:migrate": "npx dotenv-cli -e .env.development prisma migrate dev",
-    "test": "NODE_ENV=test ts-node-dev -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.test",
+    "test": "NODE_ENV=test ts-node-dev --exit-child -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.test",
     "test:db:generate": "npx dotenv-cli -e .env.test prisma generate",
     "test:db:migrate": "npx dotenv-cli -e .env.test prisma migrate dev",
     "test:integration": "npx dotenv-cli -e .env.test jest -- --no-cache -i --testPathPattern=tests/integration",
