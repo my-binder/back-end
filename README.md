@@ -1,7 +1,6 @@
 # MyBinder Back-End
 
 This repository is the back-end of the MyBinder project.
-test
 
 ## How to run
 
