@@ -1,6 +1,6 @@
 version: '3'
 services:
-  mybinder-postgres-production:
+  mybinder-postgres:
     image: postgres:13-alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USERNAME}
@@ -11,7 +11,7 @@ services:
     volumes:
       - /usr/local/mybinder-pg/data:/var/lib/postgresql/data
     command: postgres -p ${POSTGRES_PORT}
-  mybinder-production:
+  mybinder-backend:
     build:
       context: .
       dockerfile: Dockerfile
@@ -25,7 +25,7 @@ services:
     command: bash -c "npx prisma generate && npx prisma migrate dev && npm run start"
     restart: always
     depends_on:
-      - mybinder-postgres-production
+      - mybinder-postgres
     environment:
       NODE_ENV: production
       DATABASE_URL: ${DATABASE_URL}
