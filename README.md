@@ -2,8 +2,6 @@
 
 This repository is the back-end of the MyBinder project.
 
-WIP
-
 ## How to run
 
 First, clone the repository.
