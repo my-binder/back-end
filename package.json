@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "start": "node -r dotenv/config dist/src/server.js",
+    "start": "node -r dotenv/config dist/server.js",
     "dev": "NODE_ENV=development ts-node-dev --exit-child -r dotenv/config -r tsconfig-paths/register src/server.ts dotenv_config_path=./.env.development",
     "dev:db:generate": "npx dotenv-cli -e .env.development prisma generate",
     "dev:db:migrate": "npx dotenv-cli -e .env.development prisma migrate dev",
