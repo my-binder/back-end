@@ -12,7 +12,10 @@ services:
       - /usr/local/mybinder-pg/data:/var/lib/postgresql/data
     command: postgres -p ${POSTGRES_PORT}
   mybinder-backend:
-    image: mybinder-backend:1.0.0
+    image: mybinder-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     depends_on:
       - mybinder-postgres
     environment:
@@ -22,7 +25,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
     ports:
       - ${PORT}:${PORT}
-    command: bash -c "npx prisma generate && npx prisma migrate dev && npm run start"
+    command: sh -c "npx prisma generate && npx prisma migrate dev && npm run start"
   mybinder-nginx:
     image: nginx
     ports:

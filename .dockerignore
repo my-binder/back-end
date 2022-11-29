@@ -1,2 +1,4 @@
 nginx
 node_modules
+tests
+coverage
