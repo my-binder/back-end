@@ -15,12 +15,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mybinder-back
-    logging:
-      driver: 'json-file'
-      options:
-        max-size: '10m'
-        max-file: '5'
+    container_name: mybinder-backend
     working_dir: /usr/src/mybinder
     command: bash -c "npx prisma generate && npx prisma migrate dev && npm run start"
     restart: always
@@ -28,6 +23,7 @@ services:
       - mybinder-postgres
     environment:
       NODE_ENV: production
+      PORT: 4000
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
   mybinder-nginx:
