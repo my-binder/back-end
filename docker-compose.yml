@@ -1,6 +1,7 @@
 version: '3'
 services:
   mybinder-postgres:
+    container_name: mybinder-postgres
     image: postgres:15-alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USERNAME}
@@ -12,6 +13,7 @@ services:
       - /usr/local/mybinder-pg/data:/var/lib/postgresql/data
     command: postgres -p ${POSTGRES_PORT}
   mybinder-backend:
+    container_name: mybinder-backend
     image: mybinder-backend:latest
     build:
       context: .
@@ -27,6 +29,7 @@ services:
       - ${PORT}:${PORT}
     command: sh -c "npx prisma generate && npx prisma migrate dev && npm run start"
   mybinder-nginx:
+    container_name: mybinder-nginx
     image: nginx
     ports:
       - 80:80
