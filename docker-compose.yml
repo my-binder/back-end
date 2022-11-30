@@ -15,9 +15,9 @@ services:
   mybinder-backend:
     container_name: mybinder-backend
     image: mybinder-backend:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
+    ports:
+      - ${PORT} : ${PORT}
     depends_on:
       - mybinder-postgres
     environment:
