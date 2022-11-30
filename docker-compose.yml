@@ -25,15 +25,4 @@ services:
       PORT: ${PORT}
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
-    ports:
-      - ${PORT}:${PORT}
     command: sh -c "npx prisma generate && npx prisma migrate dev && npm run start"
-  mybinder-nginx:
-    container_name: mybinder-nginx
-    image: nginx
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - /usr/src/mybinder/front-end:/var/www/html
