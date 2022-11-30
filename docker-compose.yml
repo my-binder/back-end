@@ -16,13 +16,13 @@ services:
     container_name: mybinder-backend
     image: mybinder-backend:latest
     build: .
-    ports:
-      - ${PORT} : ${PORT}
-    depends_on:
-      - mybinder-postgres
     environment:
       NODE_ENV: production
       PORT: ${PORT}
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - mybinder-postgres
     command: sh -c "npx prisma generate && npx prisma migrate dev && npm run start"
