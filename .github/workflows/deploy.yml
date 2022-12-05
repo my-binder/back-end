@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+
+name: Build and Deploy
+jobs:
+  build:
+    runs-on: self-hosted
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Clean-up
+        run: |
+          cd ~
+          docker compose down
+          docker rmi frontend api
+          docker volume rm ubuntu_front
+      
+      - name: Build
+        run: docker compose build
+      
+      - name: Run
+        run: docker compose up
