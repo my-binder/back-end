@@ -1,6 +1,5 @@
 node_modules
 dist
 coverage
-Dockerfile
 .env*
 !.env.example
