@@ -13,7 +13,7 @@ export async function getPageById(
 ): Promise<Page> {
   const page = await pagesRepository.getPageById(pageId);
   if (!page) throw notFound();
-  return page;
+  return page.page;
 }
 
 export async function insertPage(
@@ -32,7 +32,7 @@ export async function updatePage(
 ): Promise<void> {
   const page = await pagesRepository.getPageById(pageId);
   if (!page) throw notFound();
-  if (page.userId !== user.id) throw unauthorized();
+  if (page.owner.id !== user.id) throw unauthorized();
   if (data.urlName) {
     const urlCheck = await pagesRepository.getPageByUrl(data.urlName, user.id);
     if (urlCheck) throw conflict('URL name already in use');
@@ -46,6 +46,6 @@ export async function deletePage(
 ): Promise<void> {
   const page = await pagesRepository.getPageById(pageId);
   if (!page) throw notFound();
-  if (page.userId !== user.id) throw unauthorized();
+  if (page.owner.id !== user.id) throw unauthorized();
   await pagesRepository.deletePage(pageId);
 }
