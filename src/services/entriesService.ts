@@ -7,12 +7,12 @@ import { FullPage, Entry, EntryData, User } from '@/types';
 import { notFound, unauthorized, notAllowed } from '@/errors';
 
 export async function getPageEntries(
-  pagename: string,
-  userEmail: string
+  userUrl: string,
+  pageUrl: string,
 ): Promise<FullPage> {
-  const user = await usersRepository.findUserByEmail(userEmail);
+  const user = await usersRepository.findUserByUrlName(userUrl);
   if (!user) throw notFound();
-  const page = await pagesRepository.getPageByUrl(pagename, user.id);
+  const page = await pagesRepository.getPageByUrl(pageUrl, user.id);
   if (!page) throw notFound();
   return page;
 }
@@ -23,9 +23,9 @@ export async function insertEntry(
 ): Promise<void> {
   const page = await pagesRepository.getPageById(pageId);
   if (!page) throw notFound();
-  if (page.userId !== user.id) throw unauthorized();
+  if (page.owner.id !== user.id) throw unauthorized();
   const data: Omit<Entry, 'id'> = {
-    pageId: page.id,
+    pageId: page.page.id,
     type: 'title',
     index: page.entries.length,
     title: '',
@@ -46,10 +46,10 @@ export async function updateEntry(
 ): Promise<void> {
   const page = await pagesRepository.getPageById(pageId);
   if (!page) throw notFound('Page not found');
-  if (page.userId !== user.id) throw unauthorized();
+  if (page.owner.id !== user.id) throw unauthorized();
   const entry = await entriesRepository.getEntryById(entryId);
   if (!entry) throw notFound('Entry not found');
-  if (entry.pageId !== page.id) throw unauthorized();
+  if (entry.pageId !== page.page.id) throw unauthorized();
   const newData: EntryData = { ...entry, ...data };
   await entriesRepository.updateEntry(entryId, newData);
 }
@@ -61,10 +61,10 @@ export async function deleteEntry(
 ): Promise<void> {
   const page = await pagesRepository.getPageById(pageId);
   if (!page) throw notFound('Page not found');
-  if (page.userId !== user.id) throw unauthorized();
+  if (page.owner.id !== user.id) throw unauthorized();
   const entry = await entriesRepository.getEntryById(entryId);
   if (!entry) throw notFound('Entry not found');
-  if (entry.pageId !== page.id) throw unauthorized();
+  if (entry.pageId !== page.page.id) throw unauthorized();
   const entryIndex = entry.index;
   await entriesRepository.deleteEntry(entryId);
   for (const element of page.entries) {
@@ -79,10 +79,10 @@ export async function moveUpEntry(
 ): Promise<void> {
   const page = await pagesRepository.getPageById(pageId);
   if (!page) throw notFound('Page not found');
-  if (page.userId !== user.id) throw unauthorized();
+  if (page.owner.id !== user.id) throw unauthorized();
   const entry = await entriesRepository.getEntryById(entryId);
   if (!entry) throw notFound('Entry not found');
-  if (entry.pageId !== page.id) throw unauthorized();
+  if (entry.pageId !== page.page.id) throw unauthorized();
   if (entry.index === 0) throw notAllowed('Already at the top');
   const entryIndex = entry.index;
   await entriesRepository.moveUpEntry(entryId);
@@ -96,10 +96,10 @@ export async function moveDownEntry(
 ): Promise<void> {
   const page = await pagesRepository.getPageById(pageId);
   if (!page) throw notFound('Page not found');
-  if (page.userId !== user.id) throw unauthorized();
+  if (page.owner.id !== user.id) throw unauthorized();
   const entry = await entriesRepository.getEntryById(entryId);
   if (!entry) throw notFound('Entry not found');
-  if (entry.pageId !== page.id) throw unauthorized();
+  if (entry.pageId !== page.page.id) throw unauthorized();
   if (entry.index === page.entries.length - 1)
     throw notAllowed('Already at the bottom');
   const entryIndex = entry.index;

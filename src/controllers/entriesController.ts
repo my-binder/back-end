@@ -3,8 +3,8 @@ import { entriesService } from '@/services';
 import { notFound } from '@/errors';
 
 export async function getEntries(req: Request, res: Response) {
-  const { username, pagename } = req.params;
-  const page = await entriesService.getPageEntries(pagename, username);
+  const { userUrl, pageUrl } = req.params;
+  const page = await entriesService.getPageEntries(userUrl, pageUrl);
   return res.status(200).send(page);
 }
 

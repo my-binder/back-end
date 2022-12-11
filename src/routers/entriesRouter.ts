@@ -5,7 +5,7 @@ import { entrySchema } from '@/schemas';
 
 export const entriesRouter = Router();
 entriesRouter.get(
-  '/entries/:username/:pagename',
+  '/entries/:userUrl/:pageUrl',
   entriesController.getEntries
 );
 entriesRouter.post(

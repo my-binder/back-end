@@ -13,20 +13,50 @@ export async function getUserPages(
 export async function getPageById(
   pageId: number
 ): Promise<FullPage | null> {
-  return await db.page.findUnique({
+  const page = await db.page.findUnique({
     where: { id: pageId },
-    include: { entries: { orderBy: { index: 'asc' } } }
+    include: {
+      user: true,
+      entries: { orderBy: { index: 'asc' } }
+    }
   });
+  if (!page) return null;
+  return {
+    page: {
+      id: page.id,
+      userId: page.userId,
+      title: page.title,
+      urlName: page.urlName,
+      createdAt: page.createdAt
+    },
+    owner: page.user,
+    entries: page.entries
+  };
 }
 
 export async function getPageByUrl(
   urlName: string,
   userId: number
 ): Promise<FullPage | null> {
-  return await db.page.findUnique({
+  const page = await db.page.findUnique({
     where: { userId_urlName: { userId, urlName } },
-    include: { entries: { orderBy: { index: 'asc' } } }
+    include: {
+      user: true,
+      entries: { orderBy: { index: 'asc' } }
+    }
   });
+  if (!page) return null;
+  return {
+    page: {
+      id: page.id,
+      userId: page.userId,
+      title: page.title,
+      urlName: page.urlName,
+      createdAt: page.createdAt
+    },
+    owner: page.user,
+    entries: page.entries
+  };
 }
 
 export async function insertPage(
